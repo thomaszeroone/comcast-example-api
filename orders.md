@@ -1,4 +1,4 @@
-# Orders API Open API 3.x Specification
+# Orders
 {:.no_toc}
 
 Our orders service provides visibility to our ordering system by customer. Use the order API to retrieve orders belonging to a specified customer, or to create a new order for a customer. Only users with a valid oauth token may retrieve and place orders.
