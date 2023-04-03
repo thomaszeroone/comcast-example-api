@@ -1,7 +1,7 @@
 # Orders API Open API 3.x Specification
 {:.no_toc}
 
-This document describes the specification for the orders API
+Our orders service provides visibility to our ordering system by customer. Use the order API to retrieve orders belonging to a specified customer, or to create a new order for a customer. Only users with a valid oauth token may retrieve and place orders.
 
 * toc
 {:toc}
@@ -10,13 +10,13 @@ This document describes the specification for the orders API
 
 ### GET
 
-Returns all orders from a specific customer ID.
+Retrieve all orders from a specific customer ID. The response will be a list of orders. Each order will have an order ID, an address ID, a credit card ID, a time, and a total quantity of items ordered. An order will also include a list of items ordered. 
 
 #### Request Parameters
 
 | Name | Type | In | Description | Required | Example |
 | ---- | ---- | -- | ----------- | -------- | ------- |
-| customerId | string(guid) | path | The customer ID of the orders to retrieve | Yes | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
+| customerId | string(guid) | path | The customer ID to retrieve orders for | Yes | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
 
 #### Response Parameters
 
@@ -72,18 +72,18 @@ OK. Normal response.
 
 ### POST
 
-Post an order by customer ID.
+Post an order for a specified customer ID. Order details in an order may include an address ID, a credit card ID, and a list of items.
 
 #### Request Parameters
 
 | Name | Type | In | Description | Required | Example |
 | ---- | ---- | -- | ----------- | -------- | ------- |
 | customerId | string(guid) | path | The customer ID of the orders to retrieve | Yes | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
-| addressId | string(guid) | body | The address ID of the address used for the order | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
-| cardId | string(guid) | body | The card ID of the card used for the order | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
-| items.id | string(guid) | body.items | The ID of an item in the order | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
-| items.quantity | int | body.items | The quantity of the item ordered | 1 |
-| items.time | int | body.items | The timecode of the order | 1634810191 |
+| addressId | string(guid) | body | The address ID of the address used for the order | No | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
+| cardId | string(guid) | body | The card ID of the card used for the order | No | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
+| items.id | string(guid) | body.items | The ID of an item in the order | No | "67647c99-ddb8-46b0-91e9-41f2176001e6" |
+| items.quantity | int | body.items | The quantity of the item ordered }No | | 1 |
+| items.time | int | body.items | The timecode of the order | No | 1634810191 |
 
 #### Errors
 
@@ -98,7 +98,7 @@ Post an order by customer ID.
 
 ### GET
 
-Returns a specific order from a customer ID and order ID.
+Retrieve a specific order for a specified customer ID. Each order will have an order ID, an address ID, a credit card ID, a time, and a total quantity of items ordered. An order will also include a list of items ordered.
 
 #### Request Parameters
 
@@ -184,4 +184,33 @@ No parameters.
 | 500 | Internal server error | 
 
 
-## Schema
+## Schemas
+
+### OrderRequest
+
+An order request consists of an addressId, cardId, and a list of items. Each item has an ID, a quantity, and a price.
+
+| Name | Type | Min length | Max length | Description |
+| ---- | ---- | ---------- | ---------- | ----------- |
+| addressId | string(guid) | 36 | 36 | The ID for an order address |
+| cardId | string(guid) | 36 | 36 | The ID for a credit card |
+| items.id | string(guid) | 36 | 36  | Item ID |
+| items.quantity | number | 1 |  | Quantity of an item |
+| items.price | number | 1 |  | Price of an item |
+
+### OrderResponse
+
+An order response consists an order ID, an address ID, a card ID, a time ordered, and a total amount ordered. It also includes a list of items and a list of shipments. Each item has an ID, a quantity, and a price. Each shipment has an ID, a status, and a time. 
+
+| Name | Type | Min length | Max length | Description |
+| ---- | ---- | ---------- | ---------- | ----------- |
+| addressId | string(guid) | 36 | 36 | The ID for an order address |
+| cardId | string(guid) | 36 | 36 | The ID for a credit card |
+| items.id | string(guid) | 36 | 36  | Item ID |
+| items.quantity | number | 1 |  | Quantity of an item |
+| items.price | number | 1 |  | Price of an item |
+| time | string | 1 | 20 | A time code specifying when the order was placed |
+| total | number | 1 | | Total quantity of items in the order |
+| shipment.id | string(guid) | 36 | 36 | The ID for a shipment |
+| shipment.status | string | 1 | | The status of the shipment |
+| shipment.time | string | 1 | 20 | A time code specifying when the shipment was made |
