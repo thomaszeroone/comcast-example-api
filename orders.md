@@ -1,6 +1,10 @@
 # Orders API Open API 3.x Specification
+{:.no_toc}
 
 This document describes the specification for the orders API
+
+* toc
+{:toc}
 
 ## /orders/[customerId]
 
