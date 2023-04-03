@@ -31,7 +31,7 @@ Returns all orders from a specific customer ID.
 
 OK. Normal response.
 
-**Example response **
+**Example response**
 
 ```
 [
@@ -120,7 +120,7 @@ Returns a specific order from a customer ID and order ID.
 
 OK. Normal response.
 
-**Example response **
+**Example respons**
 
 ```
 {
