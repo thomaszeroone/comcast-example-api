@@ -178,3 +178,6 @@ No parameters.
 | 400 | Bad request | 
 | 401 | Unauthorized | 
 | 500 | Internal server error | 
+
+
+## Schema
